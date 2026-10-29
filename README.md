@@ -9,7 +9,7 @@ De 45 colunas retornadas pela API, 15 foram mantidas.
 | numeroControlePNCP | numero_controle_pncp | Chave única de cada compra; usada para deduplicar no upsert |
 | objetoCompra | objeto_compra | Descreve o que foi comprado; útil para mostrar ao cidadão no painel |
 | dataPublicacaoPncp | data_publicacao_pncp | Define o mês de publicação (pergunta 1) |
-| dataInclusao | data_inclusao | Data de entrada no sistema; comparar com a publicação |
+| dataInclusao | data_inclusao | Data de entrada no sistema; comparar com a publicação |    
 | dataAtualizacao | data_atualizacao | Critério para manter o registro mais recente no upsert |
 | dataAberturaProposta | data_abertura_proposta | Mostra quando a disputa abre; contexto da compra |
 | orgaoEntidade.cnpj | orgao_cnpj | Identificador estável do órgão, mais confiável que o nome; usado na extração de contratos |
