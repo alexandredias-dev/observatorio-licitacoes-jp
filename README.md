@@ -11,6 +11,7 @@ De 45 colunas retornadas pela API, 15 foram mantidas.
 | dataPublicacaoPncp | data_publicacao_pncp | Define o mês de publicação (pergunta 1) |
 | dataInclusao | data_inclusao | Data de entrada no sistema; comparar com a publicação |
 | dataAtualizacao | data_atualizacao | Critério para manter o registro mais recente no upsert |
+| dataAberturaProposta | data_abertura_proposta | Mostra quando a disputa abre; contexto da compra |
 | orgaoEntidade.cnpj | orgao_cnpj | Identificador estável do órgão, mais confiável que o nome; usado na extração de contratos |
 | orgaoEntidade.razaoSocial | orgao_razao_social | Nome legível do órgão para o ranking (pergunta 2) |
 | orgaoEntidade.esferaId | orgao_esfera_id | Filtro de escopo (M, E, F, N) |
