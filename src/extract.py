@@ -1,6 +1,8 @@
 import logging
 import time
 import requests
+import json
+from pathlib import Path
 from datetime import date, timedelta
 
 URL = "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao"
@@ -46,15 +48,19 @@ def fetch_all_pages(params):
     todos.extend(primeira["data"])
 
     for pagina in range(2, total_paginas + 1):
-        params["pagina"] = pagina      
+        copia = params.copy()
+        copia["pagina"] = pagina      
         time.sleep(1)
-        nova_pagina = fetch_page(params)
+        nova_pagina = fetch_page(copia)
         todos.extend(nova_pagina["data"])
 
     return todos
 
 
 if __name__ == "__main__":
+
+    pasta_raw = Path("data/raw")
+    pasta_raw.mkdir(parents=True, exist_ok=True)
 
     hoje = date.today()
     inicio = hoje - timedelta(days=30)
@@ -70,3 +76,8 @@ if __name__ == "__main__":
 
     dados = fetch_all_pages(params)
     logger.info("Total coletado: %s", len(dados))
+
+    nome_arquivo = f"licitacoes_{hoje.strftime('%Y%m%d')}.json"
+    arquivo = pasta_raw / nome_arquivo
+    with open(arquivo, "w", encoding="utf-8") as f:
+     json.dump(dados, f, ensure_ascii=False, indent=4)
