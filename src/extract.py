@@ -3,8 +3,7 @@ import time
 import requests
 from datetime import date, timedelta
 
-#URL = "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao"
-URL = "https://httpbin.org/status/204"
+URL = "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao"
 
 
 logging.basicConfig(level=logging.INFO)
@@ -37,6 +36,16 @@ def fetch_page(params):
     logger.error("Desisti depois de 3 tentativas")
     raise RuntimeError("Desisti depois de 3 tentativas")
 
+def fetch_all_pages(params):
+    primeira = fetch_page(params)
+    total_paginas = primeira["totalPaginas"]
+    logger.info("total de páginas: %s", total_paginas)
+
+    todos = []
+    todos.extend(primeira["data"])
+
+    return todos
+
 
 if __name__ == "__main__":
 
@@ -52,5 +61,5 @@ if __name__ == "__main__":
         "tamanhoPagina" : 50,
     }
 
-    dados = fetch_page(params)
-    logger.info("Total de Registros %s", dados["totalRegistros"])
+    dados = fetch_all_pages(params)
+    logger.info("Total coletado: %s", len(dados))
