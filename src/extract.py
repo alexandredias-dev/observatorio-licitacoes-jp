@@ -5,15 +5,30 @@ from datetime import date, timedelta
 
 URL = "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao"
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def fetch_page(params):
-    r = requests.get(URL, params=params, timeout=30)
-    r.raise_for_status()
-
-    return r.json()
+    for tentativa in range(3):
+        try:
+            r = requests.get(URL, params=params, timeout=30)
+            r.raise_for_status()
+            return r.json()
+        except(requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+            logger.WARNING("Tentativa %s falhou (rede ou timeout)", tentativa + 1)
+            if tentativa < 2:
+                time.sleep(2**tentativa)
+        except requests.exceptions.HTTPError as e:
+            status = e.response.status_code
+            if 400 <= status < 500:
+                logger.warning("Status %s: pedido inválido, não adianta tentar de novo", status) 
+                raise
+            elif status >= 500:
+                logger.warning("Status %s: erro no servidor (tentativa %s)", status, tentativa + 1)
+                if tentativa < 2:
+                    time.sleep(2**tentativa)
+    logger.error("Desisti depois de 3 tentativas")
+    raise RuntimeError("Desisti depois de 3 tentativas")
 
 
 if __name__ == "__main__":
