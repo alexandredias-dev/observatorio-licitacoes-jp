@@ -40,15 +40,16 @@ def fetch_all_pages(params):
     primeira = fetch_page(params)
     total_paginas = primeira["totalPaginas"]
     logger.info("total de páginas: %s", total_paginas)
+    logger.info("totalRegistros da API: %s", primeira["totalRegistros"])
 
     todos = []
     todos.extend(primeira["data"])
 
     for pagina in range(2, total_paginas + 1):
-        # 1. coloque o número da página dentro de params (params["pagina"] = ...)
-        # 2. espere 1 segundo (time.sleep)
-        # 3. chame fetch_page(params) e guarde numa variável
-        # 4. jogue os registros dessa variável dentro de todos (extend, como na primeira)
+        params["pagina"] = pagina      
+        time.sleep(1)
+        nova_pagina = fetch_page(params)
+        todos.extend(nova_pagina["data"])
 
     return todos
 
@@ -56,7 +57,7 @@ def fetch_all_pages(params):
 if __name__ == "__main__":
 
     hoje = date.today()
-    inicio = hoje - timedelta(days=7)
+    inicio = hoje - timedelta(days=30)
 
     params = { 
         "dataInicial" : inicio.strftime("%Y%m%d"),
