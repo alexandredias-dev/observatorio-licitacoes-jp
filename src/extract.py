@@ -44,6 +44,12 @@ def fetch_all_pages(params):
     todos = []
     todos.extend(primeira["data"])
 
+    for pagina in range(2, total_paginas + 1):
+        # 1. coloque o número da página dentro de params (params["pagina"] = ...)
+        # 2. espere 1 segundo (time.sleep)
+        # 3. chame fetch_page(params) e guarde numa variável
+        # 4. jogue os registros dessa variável dentro de todos (extend, como na primeira)
+
     return todos
 
 
