@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dados brutos e processados
+data/raw/
+data/silver/
+data/gold/
